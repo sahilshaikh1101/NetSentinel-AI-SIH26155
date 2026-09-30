@@ -1,125 +1,216 @@
-# NetSentinel AI — AI-Driven Multi-Vendor Network Security Compliance Auditor
+# NetSentinel AI
 
-**Smart India Hackathon 2026 · Problem Statement SIH26155 · NTRO · Blockchain & Cybersecurity**
+### AI-Driven Multi-Vendor Network Security Compliance Auditor
 
----
-
-## 📋 SIH Problem Statement Details
-
-| Field | Details |
-|-------|---------|
-| **Problem Statement ID** | SIH26155 |
-| **Title** | AI-Driven Multi-Vendor Network Security Compliance Auditor |
-| **Organization** | National Technical Research Organisation (NTRO) |
-| **Category** | Software |
-| **Theme** | Blockchain & Cybersecurity |
-
-## 👥 Team Members
-
-| # | Name | GitHub | Role |
-|---|------|--------|------|
-| 1 | Mohammad Sahil Shaikh | [@sahilshaikh1101](https://github.com/sahilshaikh1101) | Team Leader |
-| 2 | — | [@hetshreeba](https://github.com/hetshreeba) | Member |
-| 3 | — | [@Memon-zaid](https://github.com/Memon-zaid) | Member |
-| 4 | — | [@dhruvsoneri07](https://github.com/dhruvsoneri07) | Member |
-| 5 | — | [@zainab-m54](https://github.com/zainab-m54) | Member |
-| 6 | — | [@Shanaysoni](https://github.com/Shanaysoni) | Member |
+> Developed for **Smart India Hackathon 2026** | Problem Statement **SIH26155** | National Technical Research Organisation (NTRO)
 
 ---
 
-NetSentinel AI ingests raw configuration files from *any* network device, normalises them into a vendor-neutral **Security Baseline Model (SBM)**, audits the model against **CIS, NIST SP 800-53, DISA STIG and ISO/IEC 27001**, and produces a **PDF report per device** with identification details, pass/fail findings, severity, evidence line numbers and **device-specific remediation CLI**. When it meets syntax it has never seen, the **Training Studio** proposes mappings with an offline pattern-recognition classifier (optionally an LLM) and the administrator confirms them in a low-code editor — the engine learns without a redeploy.
+## Problem Statement
 
-The whole engine runs in the browser: no server, no database, no configuration ever leaves the machine.
+| Field                    | Details                                                    |
+|--------------------------|------------------------------------------------------------|
+| **Problem Statement ID** | SIH26155                                                   |
+| **Title**                | AI-Driven Multi-Vendor Network Security Compliance Auditor |
+| **Organization**         | National Technical Research Organisation (NTRO)            |
+| **Department**           | National Technical Research Organisation (NTRO)            |
+| **Category**             | Software                                                   |
+| **Theme**                | Blockchain & Cybersecurity                                 |
 
-## What it does (mapped to the problem statement)
+**Problem Description:**
+Modern enterprise networks are inherently heterogeneous, consisting of hardware from diverse vendors. Organizations are mandated to align these devices with rigorous security frameworks including CIS Benchmarks, NIST SP 800-53, DISA STIGs, and ISO/IEC 27001. Administrators managing hybrid networks lack a centralized, vendor-agnostic solution for compliance auditing. The challenge lies in syntactic diversity across vendor CLIs and the need for scalable adaptation as new vendors, firmware versions, and device types are introduced.
 
-| PS requirement | Implementation |
-|---|---|
-| **R1 Unified ingestion** — single or bulk upload, any vendor | Drag-and-drop files, folders and ZIP archives; paste text; JSON/XML exports flattened. Weighted syntax signatures detect the vendor (`src/engine/detect.ts`) with a confidence score and reasons; manual parser override per device. Files are SHA-256 hashed and deduplicated; a second upload for a known hostname becomes a new **version** and the previous one is archived for drift analysis. |
-| **R2 Normalisation** — vendor-neutral Security Baseline Model | 118 parameters across 10 control families (`src/engine/sbm.ts`). Parsers for Cisco IOS/IOS-XE, Cisco NX-OS, Arista EOS, Juniper Junos (brace + set format), FortiOS, PAN-OS (set + XML), MikroTik RouterOS, Huawei VRP, plus a generic parser. Every observation carries **evidence line numbers** and a source (parser / platform default / learned mapping / LLM). |
-| **R3 Multi-framework engine** | One control library (`src/engine/rules/library.ts`, 68 controls) cross-referenced to CIS, NIST 800-53 r5, DISA NDM/Router SRG and ISO 27001:2022. Selecting frameworks scopes the audit; controls are data, not code. Custom controls are added in the UI. |
-| **R4 Deviation analysis** — Pass/Fail with risk severity | Every control evaluates to PASS / FAIL / NOT ASSESSED (no evidence) / N/A with critical–high–medium–low severity; the compliance score is severity-weighted. A device whose configuration was barely understood is reported as **Not assessed** instead of a misleading score, and a **coverage** figure says how much of the library had evidence. Failed controls carry triage state and time-boxed, documented **risk acceptance**, which produces an adjusted score. |
-| **R5 AI training loop** — interactive low-code GUI | The Training Studio groups unrecognised lines by configuration block, proposes an SBM parameter + extraction rule (polarity / capture / list / count / flag / constant), shows a live regex test across all pending lines, and persists the mapping. Mappings apply fleet-wide on the next parse, can be edited, and are exported/imported as **mapping packs**. |
-| **R6 AI/NLP component** | Offline classifier (`src/engine/classifier.ts`): tokenisation with letter/digit and hyphen splitting, keyword/phrase scoring against the SBM ontology, nearest-neighbour similarity against a 212-command cross-vendor corpus and against previously learned mappings, confidence with margin adjustment. Optional **LLM assist** via the Anthropic API with the operator's own key, kept for the tab session only (`src/engine/llm.ts`). |
-| **R7 PDF report per device** | jsPDF report (`src/engine/report/pdf.ts`): identification (hostname, vendor/OS, version, model, serial, management IP, SHA-256 of the config), findings table, remediation paths with evidence and vendor CLI, accepted risks, normalised baseline model. Also: fleet summary PDF, CSV and JSON, a reviewable **remediation script** per device and a ZIP **evidence bundle** with a SHA-256 manifest. |
-| **R8 Vendor-agnostic scalability** | New vendor = signature entries + parser module (or just learned mappings); new framework = references on existing controls; new control = data. Configuration **drift** between versions is shown as a line diff plus the baseline-parameter and control deltas. |
+NetSentinel AI addresses this gap by providing an AI-augmented, vendor-agnostic Compliance Engine that interprets configuration files through pattern recognition and NLP, rather than relying on hard-coded vendor-specific parsers that become obsolete with firmware updates.
 
-## Quick start
+---
+
+---
+
+## Overview
+
+NetSentinel AI ingests raw configuration files from any network device, normalises them into a vendor-neutral **Security Baseline Model (SBM)**, audits the model against **CIS, NIST SP 800-53, DISA STIG, and ISO/IEC 27001**, and produces a comprehensive **PDF report per device** containing device identification, pass/fail findings with severity ratings, evidence line numbers, and device-specific remediation CLI commands.
+
+When the engine encounters syntax it has not been trained on, the **Training Studio** proposes mappings using an offline pattern-recognition classifier (with optional LLM assistance). The administrator confirms or adjusts these mappings through a low-code interface — the engine learns without requiring a redeployment.
+
+The entire application runs in the browser. No server, no database, and no configuration data ever leaves the user's machine.
+
+---
+
+## Key Features (Mapped to Problem Statement Requirements)
+
+| Requirement | Implementation |
+|-------------|----------------|
+| **R1 — Unified Ingestion Engine** | Drag-and-drop support for files, folders, and ZIP archives. Paste-based text input. JSON/XML exports are flattened automatically. Weighted syntax signatures detect the vendor with a confidence score. Files are SHA-256 hashed and deduplicated. Re-uploading a configuration for a known hostname creates a new version with the previous one archived for drift analysis. |
+| **R2 — Normalisation** | 118 parameters across 10 control families in the Security Baseline Model. Dedicated parsers for Cisco IOS/IOS-XE, Cisco NX-OS, Arista EOS, Juniper Junos (brace and set formats), FortiOS, PAN-OS (set and XML), MikroTik RouterOS, Huawei VRP, plus a generic parser for unseen vendors. Every observation carries evidence line numbers and a source attribution (parser, platform default, learned mapping, or LLM). |
+| **R3 — Multi-Framework Compliance Engine** | A single control library of 68 controls cross-referenced to CIS, NIST 800-53 r5, DISA NDM/Router SRG, and ISO 27001:2022. Selecting frameworks scopes the audit dynamically. Controls are defined as data, not code. Custom controls can be added through the UI. |
+| **R4 — Deviation Analysis** | Every control evaluates to PASS, FAIL, NOT ASSESSED, or N/A with critical, high, medium, and low severity levels. Compliance scores are severity-weighted. Devices with insufficient parsed data are reported as "Not Assessed" with a coverage figure. Failed controls support triage states and time-boxed, documented risk acceptance with adjusted scoring. |
+| **R5 — AI Training Loop** | The Training Studio groups unrecognised configuration lines by block, proposes SBM parameter mappings with extraction rules (polarity, capture, list, count, flag, constant), provides live regex testing, and persists mappings. Mappings apply fleet-wide on the next parse and can be exported/imported as mapping packs. |
+| **R6 — AI/NLP Component** | Offline classifier with tokenisation, keyword/phrase scoring against the SBM ontology, nearest-neighbour similarity against a 212-command cross-vendor corpus and previously learned mappings. Optional LLM assist via the Anthropic API using the operator's own key (session-scoped, never persisted). |
+| **R7 — PDF Reporting** | Per-device PDF reports include device identification (hostname, vendor/OS, version, model, serial, management IP, SHA-256 hash), findings table, remediation paths with evidence and vendor CLI, accepted risks, and the normalised baseline model. Additional exports include fleet summary PDF, CSV, JSON, per-device remediation scripts, and ZIP evidence bundles with SHA-256 manifests. |
+| **R8 — Vendor-Agnostic Scalability** | Adding a new vendor requires only signature entries and a parser module (or just learned mappings). Adding a new framework requires only references on existing controls. Adding a new control requires only data. Configuration drift between versions is displayed as a line diff with baseline-parameter and control deltas. |
+
+---
+
+## Technology Stack
+
+| Layer           | Technology                                                |
+|-----------------|-----------------------------------------------------------|
+| **Frontend**    | React 19, TypeScript, Vite                                |
+| **State**       | Zustand (client-side store with local storage persistence) |
+| **Routing**     | Wouter (hash-based routing)                               |
+| **PDF Engine**  | jsPDF, jsPDF-AutoTable                                    |
+| **Archive**     | JSZip (evidence bundles, mapping pack import/export)      |
+| **Icons**       | Lucide React                                              |
+| **AI/NLP**      | Custom offline classifier, optional Anthropic LLM assist  |
+| **Testing**     | Vitest                                                    |
+| **Build**       | Vite, vite-plugin-singlefile (single-file artifact build) |
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 22 or newer
+- npm (bundled with Node.js)
+- No environment variables are required
+
+### Installation
 
 ```bash
+git clone https://github.com/<your-username>/NetSentinel-AI-SIH26155.git
+cd NetSentinel-AI-SIH26155
 npm install
-npm run dev            # http://localhost:5173
-npm test               # engine, parser, store, drift and exception tests
-npm run build          # static site in dist/
-npm run build:single   # one self-contained HTML file in dist-artifact/
 ```
 
-Node 22 or newer. No environment variables are required.
+### Running the Application
 
-## Deploying for free
-
-**GitHub Pages:** push this folder to a repository and enable *Settings → Pages → Source: GitHub Actions*. The included workflow (`.github/workflows/deploy.yml`) tests, builds and publishes on every push to `main`. The site works at `https://<user>.github.io/<repo>/` because the build uses relative asset paths and hash routing.
-
-**Any static host** (Netlify, Vercel, Cloudflare Pages): deploy the `dist/` folder.
-
-**Single file:** `npm run build:single` produces `dist-artifact/netsentinel.html`, which can be opened directly or published as a Claude artifact.
-
-## Demo flow (2 minutes)
-
-1. **Overview** — the numbered pipeline shows 9 sample devices, 8 vendor families plus one unknown vendor, the baseline parameters extracted, the control checks and failures. The fleet gauge, the severity bars and the "devices needing attention first" list are computed from the files. The heatmap shows failed/assessed controls per family and device.
-2. **Devices → EDGE-RTR-01** — identification pulled from the IOS-XE configuration (model, serial, version). Open a failed control: evidence line (click to jump into the configuration), rationale, remediation CLI ready to review. Triage it, or accept the risk with a reason and ticket: the stamp changes and the adjusted score moves.
-3. **Training Studio** — ACCESS-EX-12 (Extreme EXOS) has 57 unparsed lines. Pick a line: the classifier proposes a parameter with confidence and reasons; the regex is generated and tested live. *Accept high-confidence*, or *Load EXOS starter pack*. Back on the device it is now assessable — no code changed.
-4. **Devices → Drift** — paste a newer configuration for the same hostname: the previous version is archived, and the Drift tab shows the line diff, the baseline parameters that moved and the controls that regressed or were fixed.
-5. **Reports** — download the device PDF, the fleet summary, the fleet remediation plan or the evidence bundle (its `MANIFEST.sha256` verifies with `sha256sum -c`).
-6. **Frameworks** — toggle STIG off and on; the scope re-labels instantly. Add a custom control in the low-code form.
-7. **Ctrl+K** jumps to any page, device or control; the **Methodology** page explains scoring, coverage and the training loop.
-
-## Architecture
-
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the pipeline, data model, training loop and extensibility design.
-
-```
-src/engine/
-  detect.ts              vendor signatures (data)
-  sbm.ts                 Security Baseline Model catalogue (118 parameters)
-  parsers/               cisco-ios (+nxos, eos), junos, fortios, panos, routeros, vrp, generic
-  mappings.ts            learned-mapping application (polarity / capture / list / count / flag / const)
-  classifier.ts          offline NLP classifier + cross-vendor corpus
-  llm.ts                 optional LLM assist (Anthropic SDK, browser-direct)
-  rules/library.ts       68 controls × 4 frameworks, remediation templates per vendor
-  rules/evaluate.ts      evaluation, assessability, severity-weighted scoring
-  rules/remediation.ts   device-specific CLI rendering ({{placeholders}}, {{#each}}, {{#if}})
-  fleet.ts               device and fleet views (coverage, adjusted score)
-  exceptions.ts          risk acceptance and triage
-  diff.ts                configuration drift (line diff, parameter and finding deltas)
-  report/                jsPDF reports, CSV/JSON, remediation script, evidence bundle
-  samples/               9 realistic configurations + EXOS starter mapping pack
-src/pages/               Overview, Ingest, Devices, Findings, Frameworks, Training, Reports, Help, Settings
-src/components/          design system (ui.tsx), shell with command palette, finding drawer
+```bash
+npm run dev            # Development server at http://localhost:5173
 ```
 
-## Adding a vendor without touching code
+### Testing
 
-1. Ingest the configuration; it routes to the generic parser.
-2. In the Training Studio accept or edit the proposed mappings.
-3. Export the mapping pack (`*.json`) and share it — importing it on another workstation makes the vendor auditable there too.
+```bash
+npm test               # Runs engine, parser, store, drift, and exception tests
+```
 
-Adding a full parser (for very hierarchical syntaxes) is one module in `src/engine/parsers/` plus a signature block in `detect.ts`.
+### Production Build
 
-## Security notes
+```bash
+npm run build          # Static site output in dist/
+npm run build:single   # Single self-contained HTML file in dist-artifact/
+```
 
-- Configurations are processed and stored only in the browser (local storage), hashed with SHA-256 for evidence integrity.
-- The optional LLM key lives in the tab's session storage only and is used for browser-to-API calls you trigger; only unrecognised lines are sent.
-- Framework reference IDs are seeded from public benchmark documents and should be validated against the licensed benchmark edition before formal audits.
-- Generated remediation CLI is for review in a change window, never for blind execution.
+---
+
+## Deployment
+
+**GitHub Pages:** Enable *Settings > Pages > Source: GitHub Actions*. The included workflow tests, builds, and publishes on every push to `main`. The site works at `https://<user>.github.io/<repo>/` using relative asset paths and hash routing.
+
+**Static Hosting (Netlify, Vercel, Cloudflare Pages):** Deploy the `dist/` folder after running `npm run build`.
+
+**Single File:** `npm run build:single` produces `dist-artifact/netsentinel.html`, a fully self-contained HTML file that can be opened directly in any modern browser.
+
+---
+
+## Project Architecture
+
+For the complete architecture document, see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+```
+src/
+  engine/
+    detect.ts                 Vendor detection via weighted syntax signatures
+    sbm.ts                    Security Baseline Model (118 parameters, 10 families)
+    parsers/
+      cisco-ios.ts            Cisco IOS, IOS-XE, NX-OS, Arista EOS
+      junos.ts                Juniper Junos (brace and set formats)
+      fortios.ts              Fortinet FortiOS
+      panos.ts                Palo Alto PAN-OS (set and XML)
+      routeros.ts             MikroTik RouterOS
+      vrp.ts                  Huawei VRP
+      generic.ts              Generic fallback parser
+    mappings.ts               Learned mapping application
+    classifier.ts             Offline NLP classifier with cross-vendor corpus
+    llm.ts                    Optional LLM assist (Anthropic SDK, browser-direct)
+    rules/
+      library.ts              68 controls across 4 frameworks
+      evaluate.ts             Evaluation logic, severity-weighted scoring
+      remediation.ts          Device-specific CLI remediation rendering
+    fleet.ts                  Fleet-wide views, coverage, adjusted scoring
+    exceptions.ts             Risk acceptance and triage management
+    diff.ts                   Configuration drift detection
+    report/
+      pdf.ts                  Per-device and fleet PDF generation
+      exports.ts              CSV, JSON export
+      evidence-bundle.ts      ZIP evidence bundle with SHA-256 manifest
+      remediation-bundle.ts   Reviewable remediation script generation
+    samples/                  9 sample configurations across 8 vendor families
+  pages/                      Overview, Ingest, Devices, Findings, Frameworks,
+                              Training, Reports, Help, Settings
+  components/                 Design system, shell with command palette, finding drawer
+```
+
+---
+
+## Demo Flow (2 Minutes)
+
+1. **Overview** — The pipeline displays 9 sample devices across 8 vendor families plus one unknown vendor. The fleet compliance gauge, severity distribution bars, and prioritised device list are computed from the ingested files. A heatmap shows failed versus assessed controls per family and device.
+
+2. **Device Inspection** — Select a device (e.g., EDGE-RTR-01) to view identification details extracted from the IOS-XE configuration. Open a failed control to see the evidence line, rationale, and remediation CLI. Triage the finding or accept the risk with a documented reason.
+
+3. **Training Studio** — For an unsupported vendor (e.g., Extreme EXOS with 57 unparsed lines), the classifier proposes parameter mappings with confidence scores. Regex patterns are generated and tested live. Accept high-confidence suggestions or load a starter mapping pack. The device becomes assessable without any code changes.
+
+4. **Configuration Drift** — Upload a newer configuration for the same hostname. The previous version is archived. The Drift tab shows a line-level diff alongside baseline parameter and control finding deltas.
+
+5. **Reports** — Download per-device PDF reports, fleet summary reports, fleet remediation plans, or evidence bundles (verifiable via `sha256sum -c MANIFEST.sha256`).
+
+6. **Frameworks** — Toggle frameworks (CIS, NIST, STIG, ISO) on and off; the audit scope updates instantly. Add custom controls through the low-code form.
+
+---
+
+## Adding a New Vendor (Without Code Changes)
+
+1. Ingest the device configuration file; it will be routed to the generic parser.
+2. Open the Training Studio and accept or edit the proposed mappings.
+3. Export the mapping pack (`.json`) and distribute it to other workstations for immediate vendor support.
+
+For vendors with highly hierarchical syntax, a dedicated parser module can be added in `src/engine/parsers/` with a corresponding signature block in `detect.ts`.
+
+---
+
+## Security Considerations
+
+- All configuration data is processed and stored exclusively in the browser via local storage. No data is transmitted to any server.
+- Configuration files are hashed with SHA-256 for evidence integrity and auditability.
+- The optional LLM API key is stored only in the browser tab's session storage and is used for direct browser-to-API calls. Only unrecognised configuration lines are transmitted to the LLM endpoint.
+- Framework reference IDs are seeded from publicly available benchmark documents and should be validated against the licensed benchmark edition before formal audits.
+- Generated remediation CLI commands are intended for review in a controlled change window, not for blind execution.
+
+---
 
 ## Roadmap
 
-- Collector service (Netmiko / NAPALM) to pull running configurations over SSH on a schedule.
-- Server mode with a shared mapping-pack registry and role-based access.
-- Signed evidence bundles (hash chain of report + configuration) anchored in a ledger.
-- Additional parsers: Check Point Gaia, SonicOS, HPE Aruba AOS-CX, SONiC config_db, cloud security groups.
+- **Collector Service:** SSH-based configuration collection using Netmiko / NAPALM on a scheduled basis.
+- **Server Mode:** Shared mapping-pack registry with role-based access control for enterprise deployments.
+- **Signed Evidence Bundles:** Hash chain of report and configuration data anchored in a distributed ledger.
+- **Additional Parsers:** Check Point Gaia, SonicOS, HPE Aruba AOS-CX, SONiC config_db, cloud security groups (AWS, Azure, GCP).
 
-## Licence
+---
 
-MIT.
+## Deliverables (as per SIH Requirements)
+
+| Deliverable                              | Status    |
+|------------------------------------------|-----------|
+| Source Code (GitHub Repository)          | Provided  |
+| README with Setup Instructions           | Provided  |
+| Architecture Document (Max 2 Pages)      | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
+| Demo Video (Max 2 Minutes)               | Pending   |
+| Technical Presentation (Max 5 Slides)    | Pending   |
+
+---
+
+## License
+
+MIT. See [LICENSE](LICENSE) for details.
