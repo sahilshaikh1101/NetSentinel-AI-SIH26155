@@ -198,19 +198,3 @@ For vendors with highly hierarchical syntax, a dedicated parser module can be ad
 - **Additional Parsers:** Check Point Gaia, SonicOS, HPE Aruba AOS-CX, SONiC config_db, cloud security groups (AWS, Azure, GCP).
 
 ---
-
-## Deliverables (as per SIH Requirements)
-
-| Deliverable                              | Status    |
-|------------------------------------------|-----------|
-| Source Code (GitHub Repository)          | Provided  |
-| README with Setup Instructions           | Provided  |
-| Architecture Document (Max 2 Pages)      | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
-| Demo Video (Max 2 Minutes)               | Pending   |
-| Technical Presentation (Max 5 Slides)    | Pending   |
-
----
-
-## License
-
-MIT. See [LICENSE](LICENSE) for details.
