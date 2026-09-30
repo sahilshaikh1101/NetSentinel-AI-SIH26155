@@ -2,6 +2,31 @@
 
 **Smart India Hackathon 2026 · Problem Statement SIH26155 · NTRO · Blockchain & Cybersecurity**
 
+---
+
+## 📋 SIH Problem Statement Details
+
+| Field | Details |
+|-------|---------|
+| **Problem Statement ID** | SIH26155 |
+| **Title** | AI-Driven Multi-Vendor Network Security Compliance Auditor |
+| **Organization** | National Technical Research Organisation (NTRO) |
+| **Category** | Software |
+| **Theme** | Blockchain & Cybersecurity |
+
+## 👥 Team Members
+
+| # | Name | GitHub | Role |
+|---|------|--------|------|
+| 1 | Mohammad Sahil Shaikh | [@sahilshaikh1101](https://github.com/sahilshaikh1101) | Team Leader |
+| 2 | — | [@hetshreeba](https://github.com/hetshreeba) | Member |
+| 3 | — | [@Memon-zaid](https://github.com/Memon-zaid) | Member |
+| 4 | — | [@dhruvsoneri07](https://github.com/dhruvsoneri07) | Member |
+| 5 | — | [@zainab-m54](https://github.com/zainab-m54) | Member |
+| 6 | — | [@Shanaysoni](https://github.com/Shanaysoni) | Member |
+
+---
+
 NetSentinel AI ingests raw configuration files from *any* network device, normalises them into a vendor-neutral **Security Baseline Model (SBM)**, audits the model against **CIS, NIST SP 800-53, DISA STIG and ISO/IEC 27001**, and produces a **PDF report per device** with identification details, pass/fail findings, severity, evidence line numbers and **device-specific remediation CLI**. When it meets syntax it has never seen, the **Training Studio** proposes mappings with an offline pattern-recognition classifier (optionally an LLM) and the administrator confirms them in a low-code editor — the engine learns without a redeploy.
 
 The whole engine runs in the browser: no server, no database, no configuration ever leaves the machine.
