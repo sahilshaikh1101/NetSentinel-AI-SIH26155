@@ -1,0 +1,36 @@
+{
+  "name": "netsentinel-ai",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "NetSentinel AI - AI-driven multi-vendor network security compliance auditor (SIH26155)",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "build:single": "vite build --mode single && node scripts/make-artifact.mjs",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.127.0",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
+    "jszip": "^3.10.1",
+    "lucide-react": "^0.475.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "wouter": "^3.7.1",
+    "zustand": "^5.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.5.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vite-plugin-singlefile": "^2.2.0",
+    "vitest": "^3.2.0"
+  }
+}
